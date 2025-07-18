@@ -1,7 +1,7 @@
 name: Manual Unzip
 
 on:
-  workflow_dispatch:
+  workflow_dispatch:  # lets you run this manually from GitHub UI
 
 jobs:
   unzip:
@@ -11,9 +11,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Unzip ZIP file
+      - name: Unzip ZIP file with permissions fix
         run: |
-          unzip project-bolt-github-x9dqhdxn.zip -d extracted
+          unzip -o -q project-bolt-github-x9dqhdxn.zip -d extracted
+          chmod -R u+rw extracted
           rm project-bolt-github-x9dqhdxn.zip
           mv extracted/* ./
           rm -r extracted
