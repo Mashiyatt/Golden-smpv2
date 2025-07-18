@@ -1,0 +1,27 @@
+name: Manual Unzip
+
+on:
+  workflow_dispatch:
+
+jobs:
+  unzip:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Unzip ZIP file
+        run: |
+          unzip project-bolt-github-x9dqhdxn.zip -d extracted
+          rm project-bolt-github-x9dqhdxn.zip
+          mv extracted/* ./
+          rm -r extracted
+
+      - name: Commit unzipped files
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git add .
+          git commit -m "Manually unzipped ZIP file"
+          git push
